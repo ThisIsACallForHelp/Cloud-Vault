@@ -1,10 +1,11 @@
-export const DeleteDataService = async (req,res) => {
+export const Service = {
+    DeleteDataService: async (NodeID) => {
 
-}
-export const GetDataService = async (req,res) => {
+    },
+    GetDataService: async (NodeID) => {
 
-}
-
-export const CreateDataService = async (req,res) => {
-    
+    },
+    CreateDataService: async (...Something) => {
+        
+    }
 }

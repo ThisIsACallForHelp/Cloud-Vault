@@ -7,16 +7,15 @@ const PORT = process.env.PORT || 5000
 
 //error handling
 process.on('uncaughtException', (err) => {
-    console.error('[FATAL SYSTEM FAULT] Uncaught Exception. Halting instantly.', err)
+    console.error('uncaught exception ', err)
     process.exit(1)
 })
 
 process.on('unhandledRejection', (err) => {
-    console.error('[FATAL SYSTEM FAULT] Unhandled Rejection. Shutting down.', err)
+    console.error('unhandled rejection', err)
     process.exit(1)
 })
 
-//listen start
 const startServer = async () => 
 {
     try 
@@ -25,13 +24,12 @@ const startServer = async () =>
         //await db.connect();
         app.listen(PORT, () => 
         {
-            console.log(`Vault is on! Listening on port ${PORT}`)
-            console.log('[SECURITY] API endpoints primed for strictly validated Postman traffic.')
+            console.log(`server on port -> ${PORT}`)
         })
     } 
     catch (error) 
     {
-        console.error('[STARTUP FAILURE] Could not ignite the Vault.', error)
+        console.error('couldnt start the server -> ', error)
         process.exit(1)
     }
 }

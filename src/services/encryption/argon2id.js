@@ -1,7 +1,4 @@
 import  argon2  from "argon2"
-import { randomBytes, createCipheriv, createDecipheriv, 
-       createHash, generateKeyPairSync, createSign, 
-       createVerify} from "crypto" 
 //a quick explanation of the file's purpose 
 //so what this file does is generate a master key
 //we generate a master key to encrypt a one time key

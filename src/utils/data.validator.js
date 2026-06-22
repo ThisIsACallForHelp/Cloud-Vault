@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 import fs from "fs"
 import crypto from "crypto"
-=======
->>>>>>> 169938aa4d4ff6026ba8b609de6e8b24440ca627
 export const ValidateInput = (req,res, next) => {
     return (!req.body && req.method !== "GET" && req.method !== "DELETE") ?
     res.status(400).send("Unable To Continue, The Required Parameters Has Not Been Sent By The User"):
     next();
-<<<<<<< HEAD
 }
 
 export const InitEnvEncryption = (req, res, next) => {
@@ -18,6 +14,41 @@ export const InitEnvEncryption = (req, res, next) => {
         fs.writeFileSync(".env", envVals, { flag: "a" });
     }
     next();
-=======
->>>>>>> 169938aa4d4ff6026ba8b609de6e8b24440ca627
+}
+
+//de funcs
+//generates the public and private keys
+export const genKeys = (seed) => {
+    if (!Buffer.isBuffer(seed) || seed.length !== 32)
+    {
+        throw new Error("seed size isn't 32 bytes");
+    }
+    const privateKey = crypto.createPrivateKey({
+        key:seed,
+        format:raw,
+        type:'ed25519'
+    })
+    const publicKey = crypto.createPublicKey(privateKey)
+    return {
+        privateKey: privateKey.export({type: 'pkcs8', format: 'pem'}),
+        publicKey: publicKey.export({type: 'spki', format: 'pem'})
+    }
+}
+//encrypts the data
+export const signBlockLedger = (data,privKey) => {
+    if(!data || !privKey)
+    {
+        throw new Error("missing args (data/key)")
+    }
+    const signature = crypto.sign(null,Buffer.from(data),privKey)
+    return signature.toString('hex')
+}
+//checks the new data
+export const verifyBlockLedger = (data, signatureHex, pubKey) => {
+    if(!data || !signatureHex || !publicKeyPem)
+    {
+        throw new Error('missing data');
+    }
+    const signature = Buffer.from(signatureHex,'hex')
+    return crypto.verify(null,Buffer.from(data),pubKey,signature)
 }

@@ -6,7 +6,7 @@ export const ValidateInput = (req,res, next) => {
     next();
 }
 
-export const InitEnvEncryption = (req, res, next) => {
+export const InitEnvEncryption = (next) => {
     if(!process.env.MASTER_SALT || !process.env.MASTER_PASSWORD){
         const password = crypto.randomBytes(32).toString("base64");
         const salt = crypto.randomBytes(16).toString("hex");

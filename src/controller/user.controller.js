@@ -1,7 +1,6 @@
 import {v4 as uuid4 } from "uuid";
-import {DeleteDataService, GetDataService, CreateDataService } from "../services/service.request.handler"
+import {DeleteDataService, GetDataService, CreateDataService } from "../services/service.request.handler.js"
 import { GenerateMasterKey } from "../services/encryption/argon2id.js"
-import {DeleteDataService, GetDataService, CreateDataService } from "../services"
 
 export const DeleteDataFromServer = async (req,res) => {
     try{
@@ -30,3 +29,13 @@ export const GetServerData = async (req, res) => {
     }
 }
 
+export const CreateNewData = async (req, res) => {
+    try {
+        const response = await CreateDataService(req.body);
+        const {status, ...Extracted} = response || {};
+        return res.status(status || 201).json(Extracted);
+    } catch (err) {
+        console.log("failed to create new data ", err.message);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+}

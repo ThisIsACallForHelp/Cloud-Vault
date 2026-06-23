@@ -8,12 +8,13 @@ export const ValidateInput = (req,res, next) => {
     next();
 }
 
-export const InitEnvEncryption = (next) => {
-    if(!process.env.MASTER_SALT || !process.env.MASTER_PASSWORD){
+export const InitEnvEncryption = (req, res, next) => {
+    if(!process.env.MASTER_SALT || !process.env.MASTER_PASSWORD)
+    {
         const password = crypto.randomBytes(32).toString("base64");
         const salt = crypto.randomBytes(16).toString("hex");
         const envVals = `MASTER_SALT = "${salt}"\nMASTER_PASSWORD = "${password}"\n`;
-        fs.writeFileSync(".env", envVals, { flag: "a" });
+        fs.writeFileSync(".env", envVals, {flag: "a" });
     }
     next();
 }
@@ -44,7 +45,7 @@ export const genKeys = (seed) => {
     }
     const privateKey = crypto.createPrivateKey({
         key:seed,
-        format:raw,
+        format:'raw',
         type:'ed25519'
     })
     const publicKey = crypto.createPublicKey(privateKey)
@@ -64,7 +65,7 @@ export const signBlockLedger = (data,privKey) => {
 }
 //checks the new data
 export const verifyBlockLedger = (data, signatureHex, pubKey) => {
-    if(!data || !signatureHex || !publicKeyPem)
+    if(!data || !signatureHex || !pubKey)
     {
         throw new Error('missing data');
     }

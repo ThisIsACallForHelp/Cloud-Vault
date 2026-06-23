@@ -2,11 +2,13 @@ import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import routeUrls from "./routes/master.router.js"
+import {InitEnvEncryption} from './utils/data.validator.js';
 
 dotenv.config()
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(InitEnvEncryption)
 const PORT = process.env.PORT || 5000
 
 

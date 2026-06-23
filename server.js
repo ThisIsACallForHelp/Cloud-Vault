@@ -20,8 +20,6 @@ const startServer = async () =>
 {
     try 
     {
-        //Await DB connection here in the future
-        //await db.connect();
         app.listen(PORT, () => 
         {
             console.log(`server on port -> ${PORT}`)

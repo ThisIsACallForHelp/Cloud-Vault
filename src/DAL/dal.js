@@ -1,12 +1,8 @@
 import {MongoClient} from "mongodb";
 
-<<<<<<< HEAD
-export const MongoConnection = (collectionName) =>{ //an object
-=======
 let monClient;
 
 export const MongoConnection = async (collectionName) =>{
->>>>>>> 435f56415436fba1f4164f3a5191f091b4bda037
     const url = process.env.MONGODB_URL;
     if(!monClient)
     {
@@ -20,7 +16,7 @@ export const MongoConnection = async (collectionName) =>{
     
     return {
         createNewSecretNode: async (NodeInfo) => {
-            const {nodeId, userId, encData, dataIv, dataAuthTag, encDek, dekIv, dekAuthTag, creationTime} = NodeInfo;
+            const {nodeId, userId, encData, dataIv, dataAuthTag, encDek, dekIv, dekAuthTag, hash, signature, creationTime} = NodeInfo;
             return await collection.insertOne({
                 NodeID:nodeId,
                 userId:userId,
@@ -30,6 +26,8 @@ export const MongoConnection = async (collectionName) =>{
                 encryptedDEK:encDek,
                 dekIV:dekIv,
                 dekAuthTag:dekAuthTag,
+                Hash:hash,
+                Signature:signature,
                 createdAt:creationTime});
             },
         deleteNodeFromDB: async (NodeID) => {
@@ -45,7 +43,7 @@ export const MongoConnection = async (collectionName) =>{
             }
         },
         updateNodeInDB: async (NodeID, NodeInfo) => {
-            const {nodeId, userId, encData, dataIv, dataAuthTag, encDek, dekIv, dekAuthTag, creationTime} = NodeInfo;
+            const {nodeId, userId, encData, dataIv, dataAuthTag, encDek, dekIv, dekAuthTag, hash, signature, creationTime} = NodeInfo;
             return await collection.updateOne({NodeID:NodeID}, {$set: {
                 NodeID:nodeId,
                 userId:userId,
@@ -55,17 +53,14 @@ export const MongoConnection = async (collectionName) =>{
                 encryptedDEK:encDek,
                 dekIV:dekIv,
                 dekAuthTag:dekAuthTag,
+                Hash:hash,
+                Signature:signature,
                 createdAt:creationTime}});
         },
         getNodeByID: async (NodeID) => {
-<<<<<<< HEAD
-            try{
-                const result = await collection.findOne(NodeID);
-=======
             try
             {
                 const result = await collection.findOne({NodeID:NodeID});
->>>>>>> 435f56415436fba1f4164f3a5191f091b4bda037
                 return result;
             }
             catch(err)
@@ -74,21 +69,9 @@ export const MongoConnection = async (collectionName) =>{
                 throw err;
             }
         },
-        getLastestNodeHash: async (userID) => {
-            try{
-                const query = (userID) ? {userID: userID} : {};
-                const YoungestNode = await collection.findOne(query, {sort: 
-                    {timestamp: -1}
-                });
-                if(!YoungestNode){
-                    throw error;
-                }
-                return YoungestNode.hash;
-            }
-            catch{
-                console.log("problem with finding the latest node");
-                throw error;
-            }
+        getLastNodeHash: async () =>{
+            const last = await collection.findOne({},{sort:{createdAt:-1}})
+            return last ? last.Hash : null
         }
     }
 }

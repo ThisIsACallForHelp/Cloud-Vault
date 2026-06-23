@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import {genKeys, signBlockLedger, verifyBlockLedger} from '../../utils/data.validator'
+import {genKeys, signBlockLedger, verifyBlockLedger} from '../../utils/data.validator.js'
 const RAND_BYTES = 32
 //init consts
 const keys = genKeys(crypto.randomBytes(RAND_BYTES))

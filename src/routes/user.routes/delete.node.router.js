@@ -5,7 +5,7 @@ import { ValidateInput } from "../../utils/data.validator.js"
 const router = Router();
 
 router.delete("/:NodeID", ValidateInput, (req,res) => {
-    return await DeleteDataFromServer(req,res);
+    return DeleteDataFromServer(req,res);
 })
 
 export default router;

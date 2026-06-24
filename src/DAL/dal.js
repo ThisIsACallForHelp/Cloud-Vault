@@ -30,12 +30,12 @@ export const MongoConnection = async (collectionName) =>{
                     Hash:hash,
                     Signature:signature,
                     timestamp:creationTime});
-                }
-                catch(err){
-                    console.log("caught an error -> ",err);
-                    throw err;
-                }
-            },
+            }
+            catch(err){
+                console.log("caught an error -> ",err);
+                throw err;
+            }
+        },
         deleteNodeFromDB: async (NodeID) => {
             try
             {
@@ -118,6 +118,19 @@ export const MongoConnection = async (collectionName) =>{
             }
             catch(err){
                 console.log("caught an exception -> ", err);
+                throw err;
+            }
+        },
+        getLastNodeHash: async (userID) =>{
+            try{
+                const last = await collection.findOne({userID: userID},{sort:{createdAt:-1}})
+                if(!last){
+                    throw new Error();
+                }
+                return last;
+            }
+            catch(err){
+                console.log(err);
                 throw err;
             }
         }

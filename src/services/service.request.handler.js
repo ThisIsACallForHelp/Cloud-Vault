@@ -57,6 +57,7 @@ export const Service = {
             console.log("error while retrieving the data -> ", err);
             throw err;
         }
+        
     },
     CreateDataService: async (data, ipAddress) => {
         const userID = data.userID || "";

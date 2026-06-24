@@ -9,6 +9,9 @@ export const ValidateInput = (req,res, next) => {
 }
 
 export const InitEnvEncryption = (req, res, next) => {
+    if(!req.session.userID){
+        req.session.userID = crypto.randomUUID();
+    }
     if(!process.env.MASTER_SALT || !process.env.MASTER_PASSWORD)
     {
         const password = crypto.randomBytes(32).toString("base64");
@@ -19,12 +22,6 @@ export const InitEnvEncryption = (req, res, next) => {
     next();
 }
 
-export const CreateUserID = (req, req,next) => {
-    if(!req.session.userID){
-        req.session.userID = crypto.randomUUID();
-    }
-    next();
-}
 
 export const CheckIfNodeIDExists = (NodeID) => {
     try{

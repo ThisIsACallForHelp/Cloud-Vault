@@ -13,7 +13,9 @@ export const Service = {
     },
     GetDataService: async (NodeID) => {
         const NodeDB = await MongoConnection("Nodes");
-        return await NodeDB.getNodeByID(NodeID);
+        const Node = await NodeDB.getNodeByID(NodeID);
+
+        
     },
     CreateDataService: async (data, ipAddress) => {
         const userID = data.userID || "";

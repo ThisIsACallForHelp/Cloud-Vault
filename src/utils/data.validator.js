@@ -8,6 +8,7 @@ export const ValidateInput = (req,res, next) => {
     next();
 }
 
+<<<<<<< HEAD
 export const CheckIfUserHasID = (req,res, next) => {
     let userID = req.cookies?.userID;
     if(!userID){
@@ -19,6 +20,15 @@ export const CheckIfUserHasID = (req,res, next) => {
 }
 
 export const InitEnvEncryption = (req, res, next) => {
+=======
+export const InitEnvEncryption = (req, res, next) => {
+    /*
+    if(!req.session.userID){
+        req.session.userID = crypto.randomUUID();
+    }
+        we need to remove it so it wont crash
+    */
+>>>>>>> 2ca889df7592232cf907d6a148cf95292cf74731
     if(!process.env.MASTER_SALT || !process.env.MASTER_PASSWORD)
     {
         const password = crypto.randomBytes(32).toString("base64");
